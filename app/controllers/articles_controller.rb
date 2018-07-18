@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  access all: [:index], user: [:show,:index], admin: :all, editor: [:show, :edit, :create, :update, :destroy]
+  before_action :check_owner, only: [:edit, :update, :destroy]
+  access all: [:index], user: [:show,:index], admin: [:show, :index], editor: [:new, :show, :edit, :create, :update, :destroy]
   
   # GET /articles
   # GET /articles.json
@@ -67,9 +68,13 @@ class ArticlesController < ApplicationController
     def set_article
       @article = Article.find(params[:id])
     end
-
+  
+    def check_owner
+      ids = current_user.articles.pluck(:id)
+      redirect_to articles_path, alert: 'this is not your damn article!' unless ids.include? @article.id 
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:title, :body, :category, :author, :email)
+      params.require(:article).permit(:title, :body, :category, :author, :email, :user_id)
     end
 end
