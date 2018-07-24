@@ -1,11 +1,17 @@
 h1 The News App !!
 h2 Here are the articles !
-- Article.all.each do |a|
-  dl
-    dt
-      = a.title
-    dd
-      = a.category
 
-
-  
+- @articles.each_pair do |cat, articles|
+  thead
+    tr
+      dt
+        = cat
+  tbody
+    tr
+      td
+      - articles.each do |article|
+        dl
+          dd
+            = article.title
+        
+        

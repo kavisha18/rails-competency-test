@@ -6,12 +6,19 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all
+    @articles = Articles.all 
+    # Categories= Article.all.pluck(:category).uniq
+    # for Categories.each 
+    #   @articles=Article.where(category: Categories).first(3)
+    # end
   end
+
+    
 
   # GET /articles/1
   # GET /articles/1.json
   def show
+ 
   end
 
   # GET /articles/new
